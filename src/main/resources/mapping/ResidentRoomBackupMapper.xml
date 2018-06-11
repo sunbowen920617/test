@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.ResidentRoomBackupMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.ResidentRoomBackup">
+		<result column="RESIDENTID" jdbcType="BIGINT" property="residentid" />
+		<result column="ROOMID" jdbcType="BIGINT" property="roomid" />
+		<result column="LEADER" jdbcType="INTEGER" property="leader" />
+		<result column="MOBILEPHONE" jdbcType="VARCHAR" property="mobilephone" />
+		<result column="SHAREAUTH" jdbcType="INTEGER" property="shareauth" />
+		<result column="INVITERID" jdbcType="BIGINT" property="inviterid" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+		<result column="BACKUPDATETIME" jdbcType="TIMESTAMP" property="datetime" />
+	</resultMap>
+	<insert id="insert" parameterType="com.zheman.lock.model.ResidentRoomBackup">
+		insert into resident_room_backup (RESIDENTID, ROOMID, LEADER,
+		MOBILEPHONE, SHAREAUTH,
+		INVITERID,DATETIME,BACKUPDATETIME)
+		values (#{residentid,jdbcType=BIGINT}, #{roomid,jdbcType=BIGINT},
+		#{leader,jdbcType=INTEGER},
+		#{mobilephone,jdbcType=VARCHAR}, #{shareauth,jdbcType=INTEGER},
+		#{inviterid,jdbcType=BIGINT},#{datetime,jdbcType=TIMESTAMP},#{backupdatetime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.ResidentRoomBackup">
+		insert into resident_room_backup
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="residentid != null">
+				RESIDENTID,
+			</if>
+			<if test="roomid != null">
+				ROOMID,
+			</if>
+			<if test="leader != null">
+				LEADER,
+			</if>
+			<if test="mobilephone != null">
+				MOBILEPHONE,
+			</if>
+			<if test="shareauth != null">
+				SHAREAUTH,
+			</if>
+			<if test="inviterid != null">
+				INVITERID,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+			<if test="backupdatetime != null">
+				BACKUPDATETIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="residentid != null">
+				#{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="roomid != null">
+				#{roomid,jdbcType=BIGINT},
+			</if>
+			<if test="leader != null">
+				#{leader,jdbcType=INTEGER},
+			</if>
+			<if test="mobilephone != null">
+				#{mobilephone,jdbcType=VARCHAR},
+			</if>
+			<if test="shareauth != null">
+				#{shareauth,jdbcType=INTEGER},
+			</if>
+			<if test="inviterid != null">
+				#{inviterid,jdbcType=BIGINT},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="backupdatetime != null">
+				#{backupdatetime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+</mapper>

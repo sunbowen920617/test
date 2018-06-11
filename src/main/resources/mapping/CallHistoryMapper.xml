@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.CallHistoryMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.CallHistory">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="ROOMID" jdbcType="INTEGER" property="roomid" />
+		<result column="STATE" jdbcType="INTEGER" property="state" />
+		<result column="ANSWERDEVICE" jdbcType="INTEGER" property="answerdevice" />
+		<result column="CALLDATETIME" jdbcType="BIGINT" property="calldatetime" />
+		<result column="FAILREASON" jdbcType="VARCHAR" property="failreason" />
+		<result column="DEVICEID" jdbcType="VARCHAR" property="deviceid" />
+		<result column="ANSWERDATETIME" jdbcType="BIGINT" property="answerdatetime" />
+		<result column="ENDDATETIME" jdbcType="BIGINT" property="enddatetime" />
+		<result column="RESIDENTID" jdbcType="BIGINT" property="residentid" />
+		<result column="ANSWERTYPE" jdbcType="INTEGER" property="answertype" />
+		<result column="UNLOCKDATETIME" jdbcType="BIGINT" property="unlockdatetime" />
+		<result column="UNLOCKHISTORYID" jdbcType="BIGINT" property="unlockhistoryid" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ROOMID, STATE, ANSWERDEVICE, CALLDATETIME, FAILREASON,
+		DEVICEID,
+		ANSWERDATETIME,
+		ENDDATETIME, RESIDENTID, ANSWERTYPE,
+		UNLOCKDATETIME,UNLOCKHISTORYID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from callhistory
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectCurrentCall" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from callhistory
+		where RESIDENTID = #{residentId,jdbcType=BIGINT} AND
+		STATE=0 ORDER BY ID limit 0,1
+	</select>
+
+	<select id="selectByRoomIds" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from callhistory
+		where ROOMID in
+		<foreach collection="ids" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		order
+		by CALLDATETIME desc
+		limit
+		#{offset},#{limit} 
+	</select>
+
+
+	<select id="selectByResidentId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from callhistory
+		where RESIDENTID = #{residentId} order
+		by CALLDATETIME
+		asc
+		limit
+		#{offset},#{limit}
+	</select>
+
+	<select id="selectNewlyByRoomIdAndResidentId" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from callhistory
+		where ROOMID = #{roomId,jdbcType=BIGINT} and
+		RESIDENTID =
+		#{residentId,jdbcType=BIGINT} and STATE=1 and ORDER BY
+		CALLDATETIME
+		desc limit 0,1
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		callhistory
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.zheman.lock.model.CallHistory">
+		insert into callhistory (ID,
+		ROOMID, STATE,
+		ANSWERDEVICE, CALLDATETIME, FAILREASON,
+		DEVICEID,
+		ANSWERDATETIME, ENDDATETIME,
+		RESIDENTID, ANSWERTYPE, UNLOCKDATETIME
+		)
+		values (#{id,jdbcType=BIGINT}, #{roomid,jdbcType=INTEGER},
+		#{state,jdbcType=INTEGER},
+		#{answerdevice,jdbcType=INTEGER},
+		#{calldatetime,jdbcType=BIGINT}, #{failreason,jdbcType=VARCHAR},
+		#{deviceid,jdbcType=VARCHAR}, #{answerdatetime,jdbcType=BIGINT},
+		#{enddatetime,jdbcType=BIGINT},
+		#{residentid,jdbcType=BIGINT},
+		#{answertype,jdbcType=INTEGER}, #{unlockdatetime,jdbcType=BIGINT}
+		,#{unlockhistoryid,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.CallHistory">
+		insert into callhistory
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="roomid != null">
+				ROOMID,
+			</if>
+			<if test="state != null">
+				STATE,
+			</if>
+			<if test="answerdevice != null">
+				ANSWERDEVICE,
+			</if>
+			<if test="calldatetime != null">
+				CALLDATETIME,
+			</if>
+			<if test="failreason != null">
+				FAILREASON,
+			</if>
+			<if test="deviceid != null">
+				DEVICEID,
+			</if>
+			<if test="answerdatetime != null">
+				ANSWERDATETIME,
+			</if>
+			<if test="enddatetime != null">
+				ENDDATETIME,
+			</if>
+			<if test="residentid != null">
+				RESIDENTID,
+			</if>
+			<if test="answertype != null">
+				ANSWERTYPE,
+			</if>
+			<if test="unlockdatetime != null">
+				UNLOCKDATETIME,
+			</if>
+			<if test="unlockhistoryid != null">
+				UNLOCKHISTORYID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="roomid != null">
+				#{roomid,jdbcType=INTEGER},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="answerdevice != null">
+				#{answerdevice,jdbcType=INTEGER},
+			</if>
+			<if test="calldatetime != null">
+				#{calldatetime,jdbcType=BIGINT},
+			</if>
+			<if test="failreason != null">
+				#{failreason,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceid != null">
+				#{deviceid,jdbcType=VARCHAR},
+			</if>
+			<if test="answerdatetime != null">
+				#{answerdatetime,jdbcType=BIGINT},
+			</if>
+			<if test="enddatetime != null">
+				#{enddatetime,jdbcType=BIGINT},
+			</if>
+			<if test="residentid != null">
+				#{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="answertype != null">
+				#{answertype,jdbcType=INTEGER},
+			</if>
+			<if test="unlockdatetime != null">
+				#{unlockdatetime,jdbcType=BIGINT},
+			</if>
+			<if test="unlockhistoryid != null">
+				#{unlockhistoryid,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.CallHistory">
+		update callhistory
+		<set>
+			<if test="roomid != null">
+				ROOMID = #{roomid,jdbcType=INTEGER},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="answerdevice != null">
+				ANSWERDEVICE = #{answerdevice,jdbcType=INTEGER},
+			</if>
+			<if test="calldatetime != null">
+				CALLDATETIME = #{calldatetime,jdbcType=BIGINT},
+			</if>
+			<if test="failreason != null">
+				FAILREASON = #{failreason,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceid != null">
+				DEVICEID = #{deviceid,jdbcType=VARCHAR},
+			</if>
+			<if test="answerdatetime != null">
+				ANSWERDATETIME = #{answerdatetime,jdbcType=BIGINT},
+			</if>
+			<if test="enddatetime != null">
+				ENDDATETIME = #{enddatetime,jdbcType=BIGINT},
+			</if>
+			<if test="residentid != null">
+				RESIDENTID = #{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="answertype != null">
+				ANSWERTYPE = #{answertype,jdbcType=INTEGER},
+			</if>
+			<if test="unlockdatetime != null">
+				UNLOCKDATETIME = #{unlockdatetime,jdbcType=BIGINT},
+			</if>
+			<if test="unlockhistoryid != null">
+				UNLOCKHISTORYID = #{unlockhistoryid,jdbcType=BIGINT},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.CallHistory">
+		update callhistory
+		set ROOMID = #{roomid,jdbcType=INTEGER},
+		STATE =
+		#{state,jdbcType=INTEGER},
+		ANSWERDEVICE =
+		#{answerdevice,jdbcType=INTEGER},
+		CALLDATETIME =
+		#{calldatetime,jdbcType=BIGINT},
+		FAILREASON =
+		#{failreason,jdbcType=VARCHAR},
+		DEVICEID =
+		#{deviceid,jdbcType=VARCHAR},
+		ANSWERDATETIME =
+		#{answerdatetime,jdbcType=BIGINT},
+		ENDDATETIME =
+		#{enddatetime,jdbcType=BIGINT},
+		RESIDENTID =
+		#{residentid,jdbcType=BIGINT},
+		ANSWERTYPE =
+		#{answertype,jdbcType=INTEGER},
+		UNLOCKDATETIME =
+		#{unlockdatetime,jdbcType=BIGINT},
+		UNLOCKHISTORYID =
+		#{unlockhistoryid,jdbcType=BIGINT}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

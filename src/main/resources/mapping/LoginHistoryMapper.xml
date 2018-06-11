@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.LoginHistoryMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.LoginHistory">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="RESIDENTID" jdbcType="BIGINT" property="residentid" />
+		<result column="DEVICE" jdbcType="VARCHAR" property="device" />
+		<result column="IPADDRESS" jdbcType="VARCHAR" property="ipaddress" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+		<result column="DEVICEID" jdbcType="VARCHAR" property="deviceid" />
+		<result column="TIMESTEMP" jdbcType="VARCHAR" property="timestemp" />
+		<result column="LOGINTYPE" jdbcType="INTEGER" property="logintype" />
+		<result column="SMSCODE" jdbcType="VARCHAR" property="smscode" />
+		<result column="TOKEN" jdbcType="VARCHAR" property="token" />
+		<result column="TENCENTSIGN" jdbcType="VARCHAR" property="tencentsign" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, RESIDENTID, DEVICE, IPADDRESS, DATETIME, DEVICEID,
+		TIMESTEMP,
+		LOGINTYPE, SMSCODE,TOKEN,TENCENTSIGN
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from loginhistory
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="newlyByResidentId" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from loginhistory
+		where RESIDENTID = #{residentId,jdbcType=BIGINT}
+		order by DATETIME desc limit 1
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		loginhistory
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true"
+		parameterType="com.zheman.lock.model.LoginHistory">
+		insert into loginhistory (ID, RESIDENTID, DEVICE,
+		IPADDRESS, DATETIME, DEVICEID,
+		TIMESTEMP, LOGINTYPE,
+		SMSCODE,TOKEN,TENCENTSIGN
+		)
+		values (#{id,jdbcType=BIGINT},
+		#{residentid,jdbcType=BIGINT},
+		#{device,jdbcType=VARCHAR},
+		#{ipaddress,jdbcType=VARCHAR},
+		#{datetime,jdbcType=TIMESTAMP},
+		#{deviceid,jdbcType=VARCHAR},
+		#{timestemp,jdbcType=VARCHAR},
+		#{logintype,jdbcType=INTEGER},
+		#{smscode,jdbcType=VARCHAR},
+		#{token,jdbcType=VARCHAR},
+		#{tencentsign,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.LoginHistory">
+		insert into loginhistory
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="residentid != null">
+				RESIDENTID,
+			</if>
+			<if test="device != null">
+				DEVICE,
+			</if>
+			<if test="ipaddress != null">
+				IPADDRESS,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+			<if test="deviceid != null">
+				DEVICEID,
+			</if>
+			<if test="timestemp != null">
+				TIMESTEMP,
+			</if>
+			<if test="logintype != null">
+				LOGINTYPE,
+			</if>
+			<if test="smscode != null">
+				SMSCODE,
+			</if>
+			<if test="token != null">
+				TOKEN,
+			</if>
+			<if test="tencentsign != null">
+				TENCENTSIGN,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="residentid != null">
+				#{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="device != null">
+				#{device,jdbcType=VARCHAR},
+			</if>
+			<if test="ipaddress != null">
+				#{ipaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deviceid != null">
+				#{deviceid,jdbcType=VARCHAR},
+			</if>
+			<if test="timestemp != null">
+				#{timestemp,jdbcType=VARCHAR},
+			</if>
+			<if test="logintype != null">
+				#{logintype,jdbcType=INTEGER},
+			</if>
+			<if test="smscode != null">
+				#{smscode,jdbcType=VARCHAR},
+			</if>
+			<if test="token != null">
+				#{token,jdbcType=VARCHAR},
+			</if>
+			<if test="tencentsign != null">
+				#{tencentsign,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.LoginHistory">
+		update loginhistory
+		<set>
+			<if test="residentid != null">
+				RESIDENTID = #{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="device != null">
+				DEVICE = #{device,jdbcType=VARCHAR},
+			</if>
+			<if test="ipaddress != null">
+				IPADDRESS = #{ipaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deviceid != null">
+				DEVICEID = #{deviceid,jdbcType=VARCHAR},
+			</if>
+			<if test="timestemp != null">
+				TIMESTEMP = #{timestemp,jdbcType=VARCHAR},
+			</if>
+			<if test="logintype != null">
+				LOGINTYPE = #{logintype,jdbcType=INTEGER},
+			</if>
+			<if test="smscode != null">
+				SMSCODE = #{smscode,jdbcType=VARCHAR},
+			</if>
+			<if test="token != null">
+				TOKEN = #{token,jdbcType=VARCHAR},
+			</if>
+			<if test="tencentsign != null">
+				TENCENTSIGN = #{tencentsign,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.LoginHistory">
+		update
+		loginhistory
+		set RESIDENTID = #{residentid,jdbcType=BIGINT},
+		DEVICE =
+		#{device,jdbcType=VARCHAR},
+		IPADDRESS = #{ipaddress,jdbcType=VARCHAR},
+		DATETIME = #{datetime,jdbcType=TIMESTAMP},
+		DEVICEID =
+		#{deviceid,jdbcType=VARCHAR},
+		TIMESTEMP =
+		#{timestemp,jdbcType=VARCHAR},
+		LOGINTYPE =
+		#{logintype,jdbcType=INTEGER},
+		SMSCODE = #{smscode,jdbcType=VARCHAR},
+		TOKEN = #{token,jdbcType=VARCHAR},
+		TENCENTSIGN =
+		#{tencentsign,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

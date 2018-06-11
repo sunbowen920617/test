@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.RoomMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.Room">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="ROOMCODE" jdbcType="VARCHAR" property="roomcode" />
+		<result column="UNITID" jdbcType="INTEGER" property="unitid" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ROOMCODE, UNITID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from room
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectRoomsByUnitId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from room
+		where UNITID = #{unitId,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectRoomsNotHaveResident" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from room where ID not in (select ROOMID from resident_room) and
+		UNITID=14
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from room
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.zheman.lock.model.Room">
+		insert into room (ID,
+		ROOMCODE, UNITID
+		)
+		values (#{id,jdbcType=BIGINT},
+		#{roomcode,jdbcType=VARCHAR},
+		#{unitid,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.Room">
+		insert into room
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="roomcode != null">
+				ROOMCODE,
+			</if>
+			<if test="unitid != null">
+				UNITID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="roomcode != null">
+				#{roomcode,jdbcType=VARCHAR},
+			</if>
+			<if test="unitid != null">
+				#{unitid,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.Room">
+		update room
+		<set>
+			<if test="roomcode != null">
+				ROOMCODE = #{roomcode,jdbcType=VARCHAR},
+			</if>
+			<if test="unitid != null">
+				UNITID = #{unitid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.Room">
+		update room
+		set
+		ROOMCODE = #{roomcode,jdbcType=VARCHAR},
+		UNITID =
+		#{unitid,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

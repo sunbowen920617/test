@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.SmsHistoryMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.SmsHistory">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="SMSCODE" jdbcType="VARCHAR" property="smscode" />
+		<result column="MOBILEPHONENUMBER" jdbcType="VARCHAR" property="mobilephonenumber" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+		<result column="RESULTCODE" jdbcType="INTEGER" property="resultcode" />
+		<result column="ERRORMESSAGE" jdbcType="VARCHAR" property="errormessage" />
+		<result column="SMSTYPE" jdbcType="INTEGER" property="smstype" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SMSCODE, MOBILEPHONENUMBER, DATETIME, RESULTCODE, ERRORMESSAGE,
+		SMSTYPE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from smshistory
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from smshistory
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.zheman.lock.model.SmsHistory">
+		insert into smshistory (ID, SMSCODE, MOBILEPHONENUMBER,
+		DATETIME, RESULTCODE, ERRORMESSAGE,
+		SMSTYPE)
+		values (#{id,jdbcType=BIGINT}, #{smscode,jdbcType=VARCHAR},
+		#{mobilephonenumber,jdbcType=VARCHAR},
+		#{datetime,jdbcType=TIMESTAMP}, #{resultcode,jdbcType=INTEGER}, #{errormessage,jdbcType=VARCHAR},
+		#{smstype,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.SmsHistory">
+		insert into smshistory
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="smscode != null">
+				SMSCODE,
+			</if>
+			<if test="mobilephonenumber != null">
+				MOBILEPHONENUMBER,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+			<if test="resultcode != null">
+				RESULTCODE,
+			</if>
+			<if test="errormessage != null">
+				ERRORMESSAGE,
+			</if>
+			<if test="smstype != null">
+				SMSTYPE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="smscode != null">
+				#{smscode,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilephonenumber != null">
+				#{mobilephonenumber,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="resultcode != null">
+				#{resultcode,jdbcType=INTEGER},
+			</if>
+			<if test="errormessage != null">
+				#{errormessage,jdbcType=VARCHAR},
+			</if>
+			<if test="smstype != null">
+				#{smstype,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.SmsHistory">
+		update smshistory
+		<set>
+			<if test="smscode != null">
+				SMSCODE = #{smscode,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilephonenumber != null">
+				MOBILEPHONENUMBER = #{mobilephonenumber,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="resultcode != null">
+				RESULTCODE = #{resultcode,jdbcType=INTEGER},
+			</if>
+			<if test="errormessage != null">
+				ERRORMESSAGE = #{errormessage,jdbcType=VARCHAR},
+			</if>
+			<if test="smstype != null">
+				SMSTYPE = #{smstype,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.SmsHistory">
+		update smshistory
+		set SMSCODE = #{smscode,jdbcType=VARCHAR},
+		MOBILEPHONENUMBER = #{mobilephonenumber,jdbcType=VARCHAR},
+		DATETIME = #{datetime,jdbcType=TIMESTAMP},
+		RESULTCODE = #{resultcode,jdbcType=INTEGER},
+		ERRORMESSAGE = #{errormessage,jdbcType=VARCHAR},
+		SMSTYPE = #{smstype,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

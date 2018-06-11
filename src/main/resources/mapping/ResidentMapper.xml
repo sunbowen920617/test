@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.ResidentMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.Resident">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="MOBILEPHONENUMBER" jdbcType="VARCHAR" property="mobilephonenumber" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="IDCARDTYPE" jdbcType="INTEGER" property="idcardtype" />
+		<result column="IDCARDNUMBER" jdbcType="VARCHAR" property="idcardnumber" />
+		<result column="TELEPHONENUMBER" jdbcType="VARCHAR" property="telephonenumber" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+		<result column="APPREGISTER" jdbcType="INTEGER" property="appregister" />
+		<result column="NICKNAME" jdbcType="VARCHAR" property="nickname" />
+		<result column="LEADER" jdbcType="INTEGER" property="leader" />
+		<result column="AUTHORIZE" jdbcType="INTEGER" property="authorize" />
+		<result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+		<result column="PROFILEFACEID" jdbcType="BIGINT" property="profilefaceid" />
+		<result column="DEFAULTROOMID" jdbcType="BIGINT" property="defaultroomid" />
+		<result column="REGISTERSTEP" jdbcType="INTEGER" property="registerstep" />
+		<result column="TYPE" jdbcType="INTEGER" property="type" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, MOBILEPHONENUMBER, NAME, IDCARDTYPE, IDCARDNUMBER,
+		TELEPHONENUMBER,
+		DATETIME,
+		APPREGISTER, NICKNAME, LEADER,
+		AUTHORIZE,PASSWORD,PROFILEFACEID,DEFAULTROOMID,REGISTERSTEP,TYPE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from resident
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByMobilePhone" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from resident
+		where MOBILEPHONENUMBER = #{mobilePhone,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		resident
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true"
+		parameterType="com.zheman.lock.model.Resident">
+		insert into resident (ID,
+		MOBILEPHONENUMBER, NAME,
+		IDCARDTYPE, IDCARDNUMBER, TELEPHONENUMBER,
+		DATETIME, APPREGISTER,
+		NICKNAME,
+		LEADER,
+		AUTHORIZE,PASSWORD,PROFILEFACEID,DEFAULTROOMID,REGISTERSTEP,TYPE)
+		values
+		(#{id,jdbcType=BIGINT}, #{mobilephonenumber,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{idcardtype,jdbcType=INTEGER},
+		#{idcardnumber,jdbcType=VARCHAR},
+		#{telephonenumber,jdbcType=VARCHAR},
+		#{datetime,jdbcType=TIMESTAMP}, #{appregister,jdbcType=INTEGER},
+		#{nickname,jdbcType=VARCHAR},
+		#{leader,jdbcType=INTEGER},
+		#{authorize,jdbcType=INTEGER},#{password,jdbcType=VARCHAR},#{profilefaceid,jdbcType=BIGINT},#{defaultroomid,jdbcType=BIGINT},#{registerstep,jdbcType=INTEGER}
+		,#{type,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.Resident">
+		insert into resident
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="mobilephonenumber != null">
+				MOBILEPHONENUMBER,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="idcardtype != null">
+				IDCARDTYPE,
+			</if>
+			<if test="idcardnumber != null">
+				IDCARDNUMBER,
+			</if>
+			<if test="telephonenumber != null">
+				TELEPHONENUMBER,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+			<if test="appregister != null">
+				APPREGISTER,
+			</if>
+			<if test="nickname != null">
+				NICKNAME,
+			</if>
+			<if test="leader != null">
+				LEADER,
+			</if>
+			<if test="authorize != null">
+				AUTHORIZE,
+			</if>
+			<if test="password != null">
+				TELEPHONENUMBER,
+			</if>
+			<if test="profilefaceid != null">
+				PROFILEFACEID,
+			</if>
+			<if test="defaultroomid != null">
+				DEFAULTROOMID,
+			</if>
+			<if test="registerstep != null">
+				REGISTERSTEP,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="mobilephonenumber != null">
+				#{mobilephonenumber,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="idcardtype != null">
+				#{idcardtype,jdbcType=INTEGER},
+			</if>
+			<if test="idcardnumber != null">
+				#{idcardnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="telephonenumber != null">
+				#{telephonenumber,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="appregister != null">
+				#{appregister,jdbcType=INTEGER},
+			</if>
+			<if test="nickname != null">
+				#{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="leader != null">
+				#{leader,jdbcType=INTEGER},
+			</if>
+			<if test="authorize != null">
+				#{authorize,jdbcType=INTEGER},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="profilefaceid != null">
+				#{profilefaceid,jdbcType=BIGINT},
+			</if>
+			<if test="defaultroomid != null">
+				#{defaultroomid,jdbcType=BIGINT},
+			</if>
+			<if test="registerstep != null">
+				#{registerstep,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.Resident">
+		update resident
+		<set>
+			<if test="mobilephonenumber != null">
+				MOBILEPHONENUMBER =
+				#{mobilephonenumber,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="idcardtype != null">
+				IDCARDTYPE = #{idcardtype,jdbcType=INTEGER},
+			</if>
+			<if test="idcardnumber != null">
+				IDCARDNUMBER = #{idcardnumber,jdbcType=VARCHAR},
+			</if>
+			<if test="telephonenumber != null">
+				TELEPHONENUMBER = #{telephonenumber,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="appregister != null">
+				APPREGISTER = #{appregister,jdbcType=INTEGER},
+			</if>
+			<if test="nickname != null">
+				NICKNAME = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="leader != null">
+				LEADER = #{leader,jdbcType=INTEGER},
+			</if>
+			<if test="authorize != null">
+				AUTHORIZE = #{authorize,jdbcType=INTEGER},
+			</if>
+			<if test="password != null">
+				PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="profilefaceid != null">
+				PROFILEFACEID = #{profilefaceid,jdbcType=BIGINT},
+			</if>
+			<if test="defaultroomid != null">
+				DEFAULTROOMID = #{defaultroomid,jdbcType=BIGINT},
+			</if>
+			<if test="registerstep != null">
+				REGISTERSTEP = #{registerstep,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.Resident">
+		update resident
+		set MOBILEPHONENUMBER = #{mobilephonenumber,jdbcType=VARCHAR},
+		NAME =
+		#{name,jdbcType=VARCHAR},
+		IDCARDTYPE = #{idcardtype,jdbcType=INTEGER},
+		IDCARDNUMBER = #{idcardnumber,jdbcType=VARCHAR},
+		TELEPHONENUMBER =
+		#{telephonenumber,jdbcType=VARCHAR},
+		DATETIME =
+		#{datetime,jdbcType=TIMESTAMP},
+		APPREGISTER =
+		#{appregister,jdbcType=INTEGER},
+		NICKNAME =
+		#{nickname,jdbcType=VARCHAR},
+		LEADER = #{leader,jdbcType=INTEGER},
+		AUTHORIZE = #{authorize,jdbcType=INTEGER},
+		PASSWORD =
+		#{password,jdbcType=VARCHAR},PROFILEFACEID =
+		#{profilefaceid,jdbcType=BIGINT},DEFAULTROOMID =
+		#{defaultroomid,jdbcType=BIGINT},
+		REGISTERSTEP =
+		#{registerstep,jdbcType=INTEGER},
+		TYPE =
+		#{type,jdbcType=INTEGER}
+		where
+		ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

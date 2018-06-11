@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.ShareMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.Share">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="SHARERESIDENTID" jdbcType="BIGINT" property="shareresidentid" />
+		<result column="ACCEPTRESIDENTID" jdbcType="BIGINT" property="acceptresidentid" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+		<result column="UUID" jdbcType="VARCHAR" property="uuid" />
+		<result column="QRCODEPATH" jdbcType="VARCHAR" property="qrcodepath" />
+		<result column="ACCEPTED" jdbcType="INTEGER" property="accepted" />
+		<result column="SHARETYPE" jdbcType="INTEGER" property="sharetype" />
+		<result column="ROOMID" jdbcType="BIGINT" property="roomid" />
+		<result column="KEYNAME" jdbcType="VARCHAR" property="keyname" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SHARERESIDENTID, ACCEPTRESIDENTID, DATETIME, UUID,
+		QRCODEPATH,
+		ACCEPTED, SHARETYPE,ROOMID,KEYNAME
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from share
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByResidentIdAndUUID" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from share
+		where SHARERESIDENTID = #{residentId,jdbcType=BIGINT} and
+		UUID =
+		#{UUID,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectInvitedByRoomId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from share
+		where ROOMID = #{roomId,jdbcType=BIGINT} and ACCEPTED=1
+	</select>
+
+	<select id="selectByFourElement" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from share
+		where SHARERESIDENTID=#{shareResidentId,jdbcType=BIGINT} and
+		ACCEPTRESIDENTID=#{acceptResidentId,jdbcType=BIGINT} and ROOMID =
+		#{roomId,jdbcType=BIGINT} and ACCEPTED=#{accepted,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectInvitedByRoomIdAndShareResidentId"
+		parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from share
+		where ROOMID = #{roomId,jdbcType=BIGINT} and
+		SHARERESIDENTID=#{shareResidentId,jdbcType=BIGINT} and ACCEPTED=1
+	</select>
+
+	<select id="selectNilByThreeElement" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from share
+		where ROOMID = #{roomId,jdbcType=BIGINT} and
+		SHARERESIDENTID=#{shareResidentId,jdbcType=BIGINT} and
+		ACCEPTRESIDENTID=#{acceptResidentId,jdbcType=BIGINT} and ACCEPTED=0
+	</select>
+
+	<select id="selectAccetpByThreeElement" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from share
+		where ROOMID = #{roomId,jdbcType=BIGINT} and
+		SHARERESIDENTID=#{shareResidentId,jdbcType=BIGINT} and
+		ACCEPTRESIDENTID=#{acceptResidentId,jdbcType=BIGINT} and ACCEPTED=1
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from share
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true"
+		parameterType="com.zheman.lock.model.Share">
+		insert into share (ID,
+		SHARERESIDENTID, ACCEPTRESIDENTID,
+		DATETIME, UUID, QRCODEPATH,
+		ACCEPTED, SHARETYPE,ROOMID,KEYNAME)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{shareresidentid,jdbcType=BIGINT},
+		#{acceptresidentid,jdbcType=BIGINT},
+		#{datetime,jdbcType=TIMESTAMP},
+		#{uuid,jdbcType=VARCHAR}, #{qrcodepath,jdbcType=VARCHAR},
+		#{accepted,jdbcType=INTEGER}, #{sharetype,jdbcType=INTEGER},
+		#{roomid,jdbcType=BIGINT},#{keyname,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.Share">
+		insert into share
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="shareresidentid != null">
+				SHARERESIDENTID,
+			</if>
+			<if test="acceptresidentid != null">
+				ACCEPTRESIDENTID,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+			<if test="uuid != null">
+				UUID,
+			</if>
+			<if test="qrcodepath != null">
+				QRCODEPATH,
+			</if>
+			<if test="accepted != null">
+				ACCEPTED,
+			</if>
+			<if test="sharetype != null">
+				SHARETYPE,
+			</if>
+			<if test="roomid != null">
+				ROOMID,
+			</if>
+			<if test="keyname != null">
+				KEYNAME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="shareresidentid != null">
+				#{shareresidentid,jdbcType=BIGINT},
+			</if>
+			<if test="acceptresidentid != null">
+				#{acceptresidentid,jdbcType=BIGINT},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uuid != null">
+				#{uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="qrcodepath != null">
+				#{qrcodepath,jdbcType=VARCHAR},
+			</if>
+			<if test="accepted != null">
+				#{accepted,jdbcType=INTEGER},
+			</if>
+			<if test="sharetype != null">
+				#{sharetype,jdbcType=INTEGER},
+			</if>
+			<if test="roomid != null">
+				#{roomid,jdbcType=BIGINT},
+			</if>
+			<if test="keyname != null">
+				#{keyname,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.Share">
+		update share
+		<set>
+			<if test="shareresidentid != null">
+				SHARERESIDENTID = #{shareresidentid,jdbcType=BIGINT},
+			</if>
+			<if test="acceptresidentid != null">
+				ACCEPTRESIDENTID = #{acceptresidentid,jdbcType=BIGINT},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uuid != null">
+				UUID = #{uuid,jdbcType=VARCHAR},
+			</if>
+			<if test="qrcodepath != null">
+				QRCODEPATH = #{qrcodepath,jdbcType=VARCHAR},
+			</if>
+			<if test="accepted != null">
+				ACCEPTED = #{accepted,jdbcType=INTEGER},
+			</if>
+			<if test="sharetype != null">
+				SHARETYPE = #{sharetype,jdbcType=INTEGER},
+			</if>
+			<if test="roomid != null">
+				ROOMID = #{roomid,jdbcType=BIGINT},
+			</if>
+			<if test="keyname != null">
+				KEYNAME = #{keyname,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.Share">
+		update share
+		set
+		SHARERESIDENTID = #{shareresidentid,jdbcType=BIGINT},
+		ACCEPTRESIDENTID
+		= #{acceptresidentid,jdbcType=BIGINT},
+		DATETIME =
+		#{datetime,jdbcType=TIMESTAMP},
+		UUID = #{uuid,jdbcType=VARCHAR},
+		QRCODEPATH = #{qrcodepath,jdbcType=VARCHAR},
+		ACCEPTED =
+		#{accepted,jdbcType=INTEGER},
+		SHARETYPE =
+		#{sharetype,jdbcType=INTEGER},
+		ROOMID = #{roomid,jdbcType=BIGINT},
+		KEYNAME = #{keyname,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

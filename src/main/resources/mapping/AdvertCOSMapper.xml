@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.AdvertCOSMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.AdvertCOS">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="ADVERTID" jdbcType="BIGINT" property="advertid" />
+		<result column="ETAG" jdbcType="VARCHAR" property="etag" />
+		<result column="KEYNAME" jdbcType="VARCHAR" property="keyname" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ADVERTID, ETAG, KEYNAME
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from advertcos
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectByAdvertId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from advertcos
+		where ADVERTID = #{advertId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		advertcos
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.zheman.lock.model.AdvertCOS">
+		insert into advertcos (ID,
+		ADVERTID, ETAG,
+		KEYNAME)
+		values (#{id,jdbcType=BIGINT},
+		#{advertid,jdbcType=BIGINT},
+		#{etag,jdbcType=VARCHAR},
+		#{keyname,jdbcType=VARCHAR},
+		#{datetime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.AdvertCOS">
+		insert into advertcos
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="advertid != null">
+				ADVERTID,
+			</if>
+			<if test="etag != null">
+				ETAG,
+			</if>
+			<if test="keyname != null">
+				KEYNAME,
+			</if>
+			<if test="datetime != null">
+				TIMESTAMP,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="advertid != null">
+				#{advertid,jdbcType=BIGINT},
+			</if>
+			<if test="etag != null">
+				#{etag,jdbcType=VARCHAR},
+			</if>
+			<if test="keyname != null">
+				#{keyname,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.AdvertCOS">
+		update advertcos
+		<set>
+			<if test="advertid != null">
+				ADVERTID = #{advertid,jdbcType=BIGINT},
+			</if>
+			<if test="etag != null">
+				ETAG = #{etag,jdbcType=VARCHAR},
+			</if>
+			<if test="keyname != null">
+				KEYNAME = #{keyname,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.AdvertCOS">
+		update advertcos
+		set ADVERTID = #{advertid,jdbcType=BIGINT},
+		ETAG =
+		#{etag,jdbcType=VARCHAR},
+		KEYNAME = #{keyname,jdbcType=VARCHAR},
+		DATETIME = #{datetime,jdbcType=TIMESTAMP}
+		where ID
+		=
+		#{id,jdbcType=BIGINT}
+	</update>
+</mapper>

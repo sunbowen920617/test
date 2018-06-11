@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.DeviceMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.Device">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="DEVICECODE" jdbcType="VARCHAR" property="devicecode" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+		<result column="GPSADDRESS" jdbcType="VARCHAR" property="gpsaddress" />
+		<result column="ACTIVATE" jdbcType="INTEGER" property="activate" />
+		<result column="MOBILEPHONE" jdbcType="VARCHAR" property="mobilephone" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, DEVICECODE, DATETIME, GPSADDRESS, ACTIVATE,MOBILEPHONE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from device
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from device
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.zheman.lock.model.Device">
+		insert into device (ID, DEVICECODE, DATETIME,
+		GPSADDRESS, ACTIVATE)
+		values (#{id,jdbcType=BIGINT}, #{devicecode,jdbcType=VARCHAR},
+		#{datetime,jdbcType=TIMESTAMP},
+		#{gpsaddress,jdbcType=VARCHAR}, #{activate,jdbcType=INTEGER}, #{mobilephone,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.Device">
+		insert into device
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="devicecode != null">
+				DEVICECODE,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+			<if test="gpsaddress != null">
+				GPSADDRESS,
+			</if>
+			<if test="activate != null">
+				ACTIVATE,
+			</if>
+				<if test="mobilephone != null">
+				MOBILEPHONE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="devicecode != null">
+				#{devicecode,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gpsaddress != null">
+				#{gpsaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="activate != null">
+				#{activate,jdbcType=INTEGER},
+			</if>
+			<if test="mobilephone != null">
+				#{MOBILEPHONE,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.Device">
+		update device
+		<set>
+			<if test="devicecode != null">
+				DEVICECODE = #{devicecode,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gpsaddress != null">
+				GPSADDRESS = #{gpsaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="activate != null">
+				ACTIVATE = #{activate,jdbcType=INTEGER},
+			</if>
+			<if test="mobilephone != null">
+				MOBILEPHONE = #{mobilephone,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.Device">
+		update device
+		set DEVICECODE = #{devicecode,jdbcType=VARCHAR},
+		DATETIME = #{datetime,jdbcType=TIMESTAMP},
+		GPSADDRESS = #{gpsaddress,jdbcType=VARCHAR},
+		ACTIVATE = #{activate,jdbcType=INTEGER},
+		MOBILEPHONE = #{mobilephone,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

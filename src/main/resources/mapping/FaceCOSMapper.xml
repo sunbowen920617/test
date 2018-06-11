@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.FaceCOSMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.FaceCOS">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="RESIDENTID" jdbcType="BIGINT" property="residentid" />
+		<result column="ETAG" jdbcType="VARCHAR" property="etag" />
+		<result column="KEYNAME" jdbcType="VARCHAR" property="keyname" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+		<result column="YOUTUID" jdbcType="VARCHAR" property="youtuid" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, RESIDENTID, ETAG, KEYNAME, DATETIME,YOUTUID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from facecos
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByResidentId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from facecos
+		where RESIDENTID = #{residentId,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from facecos
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true"
+		parameterType="com.zheman.lock.model.FaceCOS">
+		insert into facecos (ID, RESIDENTID, ETAG,
+		KEYNAME, DATETIME,YOUTUID)
+		values (#{id,jdbcType=BIGINT}, #{residentid,jdbcType=BIGINT},
+		#{etag,jdbcType=VARCHAR},
+		#{keyname,jdbcType=VARCHAR}, #{datetime,jdbcType=TIMESTAMP}, #{youtuid,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.FaceCOS">
+		insert into facecos
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="residentid != null">
+				RESIDENTID,
+			</if>
+			<if test="etag != null">
+				ETAG,
+			</if>
+			<if test="keyname != null">
+				KEYNAME,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+			<if test="youtuid != null">
+				YOUTUID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="residentid != null">
+				#{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="etag != null">
+				#{etag,jdbcType=VARCHAR},
+			</if>
+			<if test="keyname != null">
+				#{keyname,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="youtuid != null">
+				#{youtuid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.FaceCOS">
+		update facecos
+		<set>
+			<if test="residentid != null">
+				RESIDENTID = #{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="etag != null">
+				ETAG = #{etag,jdbcType=VARCHAR},
+			</if>
+			<if test="keyname != null">
+				KEYNAME = #{keyname,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="youtuid != null">
+				YOUTUID = #{youtuid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.FaceCOS">
+		update facecos
+		set RESIDENTID = #{residentid,jdbcType=BIGINT},
+		ETAG = #{etag,jdbcType=VARCHAR},
+		KEYNAME = #{keyname,jdbcType=VARCHAR},
+		DATETIME = #{datetime,jdbcType=TIMESTAMP},
+		YOUTUID = #{youtuid,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

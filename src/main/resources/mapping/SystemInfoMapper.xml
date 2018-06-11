@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.SystemInfoMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.SystemInfo">
+		<result column="KEY" jdbcType="VARCHAR" property="key" />
+		<result column="VALUE" jdbcType="VARCHAR" property="value" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		`KEY`,`VALUE`,`TYPE`,DATETIME
+	</sql>
+	<select id="selectByTypeAndKey" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from systeminfo
+		where `TYPE` = #{type,jdbcType=VARCHAR} and
+		`KEY`=#{key,jdbcType=VARCHAR}
+	</select>
+
+	<insert id="insert" parameterType="com.zheman.lock.model.SystemInfo">
+		insert into systeminfo (KEY,
+		VALUE, TYPE,
+		DATETIME)
+		values (#{key,jdbcType=VARCHAR},
+		#{value,jdbcType=VARCHAR},
+		#{type,jdbcType=VARCHAR},
+		#{datetime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.SystemInfo">
+		insert into systeminfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="key != null">
+				KEY,
+			</if>
+			<if test="value != null">
+				VALUE,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="key != null">
+				#{key,jdbcType=VARCHAR},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+</mapper>

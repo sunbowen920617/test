@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.FeedbackMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.Feedback">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="MESSAGE" jdbcType="VARCHAR" property="message" />
+		<result column="RESIDENTID" jdbcType="BIGINT" property="residentid" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+		<result column="STATE" jdbcType="INTEGER" property="state" />
+		<result column="ANSWERDATETIME" jdbcType="TIMESTAMP" property="answerdatetime" />
+		<result column="ANSWERMESSAGE" jdbcType="VARCHAR" property="answermessage" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, MESSAGE, RESIDENTID, DATETIME, STATE, ANSWERDATETIME,
+		ANSWERMESSAGE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from feedback
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectFeedbacksByResidentId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from feedback
+		where RESIDENTID = #{residentId,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectDailyByResidentId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from feedback where RESIDENTID=#{residentId} and STATE=1 and DATETIME between
+		#{begin} and #{end}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		feedback
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.zheman.lock.model.Feedback">
+		insert into feedback (ID,
+		MESSAGE, RESIDENTID,
+		DATETIME, STATE, ANSWERDATETIME,
+		ANSWERMESSAGE)
+		values (#{id,jdbcType=BIGINT}, #{message,jdbcType=VARCHAR},
+		#{residentid,jdbcType=BIGINT},
+		#{datetime,jdbcType=TIMESTAMP},
+		#{state,jdbcType=INTEGER}, #{answerdatetime,jdbcType=TIMESTAMP},
+		#{answermessage,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.Feedback">
+		insert into feedback
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="message != null">
+				MESSAGE,
+			</if>
+			<if test="residentid != null">
+				RESIDENTID,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+			<if test="state != null">
+				STATE,
+			</if>
+			<if test="answerdatetime != null">
+				ANSWERDATETIME,
+			</if>
+			<if test="answermessage != null">
+				ANSWERMESSAGE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="message != null">
+				#{message,jdbcType=VARCHAR},
+			</if>
+			<if test="residentid != null">
+				#{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="answerdatetime != null">
+				#{answerdatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="answermessage != null">
+				#{answermessage,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.Feedback">
+		update feedback
+		<set>
+			<if test="message != null">
+				MESSAGE = #{message,jdbcType=VARCHAR},
+			</if>
+			<if test="residentid != null">
+				RESIDENTID = #{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="state != null">
+				STATE = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="answerdatetime != null">
+				ANSWERDATETIME = #{answerdatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="answermessage != null">
+				ANSWERMESSAGE = #{answermessage,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.Feedback">
+		update feedback
+		set MESSAGE = #{message,jdbcType=VARCHAR},
+		RESIDENTID =
+		#{residentid,jdbcType=BIGINT},
+		DATETIME =
+		#{datetime,jdbcType=TIMESTAMP},
+		STATE = #{state,jdbcType=INTEGER},
+		ANSWERDATETIME = #{answerdatetime,jdbcType=TIMESTAMP},
+		ANSWERMESSAGE =
+		#{answermessage,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

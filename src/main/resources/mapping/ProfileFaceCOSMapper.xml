@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zheman.lock.dao.ProfileFaceCOSMapper">
+	<resultMap id="BaseResultMap" type="com.zheman.lock.model.ProfileFaceCOS">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="RESIDENTID" jdbcType="BIGINT" property="residentid" />
+		<result column="ETAG" jdbcType="VARCHAR" property="etag" />
+		<result column="DOWNLOADURL" jdbcType="VARCHAR" property="downloadurl" />
+		<result column="DATETIME" jdbcType="TIMESTAMP" property="datetime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, RESIDENTID, ETAG, DOWNLOADURL,DATETIME
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from profilefacecos
+		where ID = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByResidentId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from profilefacecos
+		where RESIDENTID = #{residentId,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		profilefacecos
+		where ID = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true"
+		parameterType="com.zheman.lock.model.ProfileFaceCOS">
+		insert into profilefacecos ( RESIDENTID, ETAG,
+		DOWNLOADURL,DATETIME)
+		values ( #{residentid,jdbcType=BIGINT},
+		#{etag,jdbcType=VARCHAR},
+		#{downloadurl,jdbcType=VARCHAR},
+		#{datetime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zheman.lock.model.ProfileFaceCOS">
+		insert into profilefacecos
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="residentid != null">
+				RESIDENTID,
+			</if>
+			<if test="etag != null">
+				ETAG,
+			</if>
+			<if test="downloadurl != null">
+				DOWNLOADURL,
+			</if>
+			<if test="datetime != null">
+				DATETIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="residentid != null">
+				#{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="etag != null">
+				#{etag,jdbcType=VARCHAR},
+			</if>
+			<if test="downloadurl != null">
+				#{downloadurl,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				#{datetime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zheman.lock.model.ProfileFaceCOS">
+		update profilefacecos
+		<set>
+			<if test="residentid != null">
+				RESIDENTID = #{residentid,jdbcType=BIGINT},
+			</if>
+			<if test="etag != null">
+				ETAG = #{etag,jdbcType=VARCHAR},
+			</if>
+			<if test="downloadurl != null">
+				DOWNLOADURL = #{downloadurl,jdbcType=VARCHAR},
+			</if>
+			<if test="datetime != null">
+				DATETIME = #{datetime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zheman.lock.model.ProfileFaceCOS">
+		update
+		profilefacecos
+		set RESIDENTID = #{residentid,jdbcType=BIGINT},
+		ETAG =
+		#{etag,jdbcType=VARCHAR},
+		DOWNLOADURL =
+		#{downloadurl,jdbcType=VARCHAR},
+		DATETIME =
+		#{datetime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>
